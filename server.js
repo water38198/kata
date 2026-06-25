@@ -2,7 +2,6 @@ import http from 'http';
 import { v4 as uuidv4 } from 'uuid';
 import { headers } from './config.js';
 import errorHandle from './errorHandel.js';
-import { totalmem } from 'os';
 
 const todos = [
   {
@@ -18,7 +17,7 @@ const successResponse = (res) => {
     data: todos
   }));
 }
-const requireListener = (req,res) => {
+const requestListener = (req,res) => {
   let body = '';
   req.on('data', chunk => {
     body += chunk;
@@ -85,6 +84,6 @@ const requireListener = (req,res) => {
 }
 
 
-const server = http.createServer(requireListener);
-server.listen(3005 || process.env.PORT);
+const server = http.createServer(requestListener);
+server.listen(process.env.PORT || 3005);
 
