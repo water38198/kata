@@ -31,8 +31,8 @@ const requestListener = (req,res) => {
   } else if (req.url === "/todos" && req.method === "POST") {
     req.on('end', () => {
       try {
-        const title = JSON.parse(body).title;
-        const isValidTitle = typeof title === 'string' && title.trim() !== '';
+        const title = JSON.parse(body).title.trim();
+        const isValidTitle = typeof title === 'string' && title !== '';
         if (isValidTitle) {
           const todo = {
             title,
@@ -75,11 +75,12 @@ const requestListener = (req,res) => {
           errorHandle(res);
         }
       } catch (error) {
-        errorHandle(res);
+        res.writeHead(404, headers);
+        res.end({status:'error',message:'找不到網頁'})
       }
     })
   } else {
-    errorHandle(res);
+    
   }
 }
 
